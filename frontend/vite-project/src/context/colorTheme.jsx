@@ -5,12 +5,12 @@ const ColorContext = createContext({});
 
 export const ColorProvider = ({children}) =>
 {
-    const [themeColor, setThemeColor] = useState("#14b9e6");
+    const [themeColor, setThemeColor] = useState("#4fbf8b");
 
     useEffect(() => 
     {
         const rootColor = getComputedStyle(document.documentElement).getPropertyValue("--colo");
-        if (rootColor) setThemeColor(rootColor);
+        if (rootColor) setThemeColor(prev => rootColor || prev );
     }, []);
 
     return(

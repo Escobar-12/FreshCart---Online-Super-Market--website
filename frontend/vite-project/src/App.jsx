@@ -4,6 +4,8 @@ import Login from "./pages/Login.jsx"
 import Register from "./pages/Register.jsx"
 import Logout from "./pages/Logout.jsx"
 import MainLayout from "./Layout/MainLayout.jsx"
+import AllProducts from './pages/AllProducts.jsx';
+
 
 const Roles = {
   User: 2000,
@@ -17,7 +19,7 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      // { path: 'posts', element:<PostList/>,},
+      { path: 'products', element:<AllProducts/>,},
       // { path: 'saved', element:<SavedPosts/>,},
       // { path: 'posts/:slug', element: <Post /> },
       // {path: 'author/:authorId', element: <AuthorPage />},

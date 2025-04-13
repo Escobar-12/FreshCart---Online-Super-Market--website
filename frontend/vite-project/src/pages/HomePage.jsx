@@ -1,10 +1,22 @@
 import React from 'react'
+import MainBanner from '../components/MainBanner'
+import CategoriesSec from '../components/CategoriesSec'
+import BestSellerSec from '../components/BestSellerSec'
+import BottomBanner from '../components/BottomBanner'
+import SubscriptionSec from '../components/SubscriptionSec'
+import FooterSec from '../components/FooterSec'
 
 const HomePage = () => {
     return (
-        <section className="max-w-[1240px] mx-auto px-4 md:px-8 lg:px-16 w-full flex flex-col gap-4 mt-10 lg:mt-20">
-            Home
+        <>  
+        <section className="flex flex-col gap-4 mt-8 lg:mt-15">
+            <MainBanner />
+            <CategoriesSec />
+            <BestSellerSec />
+            <BottomBanner />
+            <SubscriptionSec />
         </section>
+        </>
     )
 }
 

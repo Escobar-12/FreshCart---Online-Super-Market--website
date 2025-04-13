@@ -22,8 +22,6 @@ const ButtonCustom = ({
     useButtonHoverEffect();
 
     const buttonStyle = {
-        backgroundColor: newColor||themeColor,
-        borderColor: newColor || themeColor,
         opacity: disable ? 0.5 : 1,
         cursor: disable ? "not-allowed" : "pointer",
     };
@@ -38,15 +36,15 @@ const ButtonCustom = ({
         </>
     );
 
-    const baseClasses = `inline-flex items-center gap-2 px-2 py-1 border-2 text-white ${roundedFull ? "rounded-full" : "rounded"} ${textCenter ? "justify-center" : ""}`
+    const baseClasses = `inline-flex items-center gap-2 px-3 py-1 transition-all duration-400 border-3  ${textCenter ? "justify-center" : ""}`
     const dynamicClasses = `${disable?"": customHover ? `active:scale-102 transition-all duration-150`: "Prim_Button"}`
 
     return href ? (
-        <Link to={href} onClick={onClicking} className={`Prim_Button inline-flex items-center gap-2 px-2 py-1 border-2 text-white ${roundedFull ? "rounded-full" : "rounded"} ${textCenter ? "justify-center" : ""} `} style={buttonStyle}>
+        <Link to={href} onClick={onClicking} className={`${baseClasses}  ${dynamicClasses}  ${ClassName}`} style={buttonStyle} >
             {content}
         </Link>
     ) : (
-        <button disabled={disable} onClick={onClicking} className={`${baseClasses} + ${dynamicClasses} + ${ClassName}`} style={buttonStyle}>
+        <button disabled={disable} onClick={onClicking} className={`${baseClasses}  ${dynamicClasses}  ${ClassName}`} style={buttonStyle}>
             {content}
         </button>
     );
