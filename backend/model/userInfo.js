@@ -1,4 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import addressSchema from "./userAddresses.js";
+
 
 const userSchema = new mongoose.Schema({
     name:{
@@ -36,7 +38,28 @@ const userSchema = new mongoose.Schema({
     createdPosts:{
         type: [Schema.Types.ObjectId],
         default:[]
-    }
+    },
+    addresses: {
+        type: [{
+            firstName:{type:String, required: true }, 
+            lastName:{type:String, required: true }, 
+            email:{type:String, required: true }, 
+            street:{type:String, required: true }, 
+            city:{type:String, required: true }, 
+            state:{type:String, required: true }, 
+            zipcode:{type:Number, required: true }, 
+            country:{type:String, required: true }, 
+            phone:{type:String, required: true }
+        }],
+        default: [],
+    },
+    orders: {
+        type : [Schema.Types.ObjectId],
+        ref:"OrdersRecord",
+        default: [],
+    },
+    
+
 },{timestamps:true})
 
 export const userModel = mongoose.models.UserInfo || mongoose.model("UserInfo",userSchema);

@@ -209,7 +209,7 @@ export const dummyProducts = [
     rating:5,
     price: 25,
     offerPrice: 20,
-    image: [potato_image_1],
+    image: [potato_image_1,potato_image_2,potato_image_3,potato_image_4],
     description: [
       "Fresh and organic",
       "Rich in carbohydrates",

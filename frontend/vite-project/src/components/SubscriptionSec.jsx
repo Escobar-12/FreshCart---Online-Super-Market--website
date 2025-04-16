@@ -8,7 +8,7 @@ const SubscriptionSec = () => {
             <p className='text-neutral-400/80'>Subscribe to get the latest offers, new arrivals, and exclusive discounts</p>
             <div className='border flex rounded border-neutral-300/70 mt-7 w-full max-w-2xl'>
                 <input type="email" name="email_input" placeholder='Enter your email address' className='flex-1 text-neutral-300/90 ml-3 outline-none w-full '/>
-                <button className={`py-2 px-4 md:px-7 bg-[${themeColor}] text-white rounded-r cursor-pointer `}>Subscribe</button>
+                <button className={`py-2 px-4 md:px-7 text-white rounded-r cursor-pointer hover:brightness-90`} style={{ background: themeColor }}>Subscribe</button>
             </div>
         </div>
     )

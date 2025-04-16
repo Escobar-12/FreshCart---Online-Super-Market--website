@@ -5,6 +5,9 @@ import Register from "./pages/Register.jsx"
 import Logout from "./pages/Logout.jsx"
 import MainLayout from "./Layout/MainLayout.jsx"
 import AllProducts from './pages/AllProducts.jsx';
+import ProductPage from './pages/ProductPage.jsx';
+import CartPage from './pages/CartPage.jsx';
+import AddAddressPage from './pages/AddAddressPage.jsx';
 
 
 const Roles = {
@@ -20,9 +23,9 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: 'products', element:<AllProducts/>,},
-      // { path: 'saved', element:<SavedPosts/>,},
-      // { path: 'posts/:slug', element: <Post /> },
-      // {path: 'author/:authorId', element: <AuthorPage />},
+      { path: 'products/:product_id', element:<ProductPage/>,},
+      { path: 'cart', element: <CartPage /> },
+      {path: 'add-address', element: <AddAddressPage />},
       // {
       //   path: 'admin',
       //   element: <RequireAuth allowedRoles={[Roles.Admin]} />,

@@ -1,30 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useApplication from '../hooks/applicationHook';
-import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { CiShoppingCart } from "react-icons/ci";
+import { assets } from '../assets/assets';
 
-const ItemProductCard = ({ product }) => {
-    const { cartItems, addToCart, update, removeFromCart, navigate } = useApplication();
+const ItemProductCard = ({ product }) => 
+{
+    const { cartItems, addToCart, update, removeFromCart, navigate, genStars } = useApplication();
     const [count, setCount] = useState(0);
-
-    const genStars = (rating) =>
-    {
-        const stars = [];
-        for(let i=1;i<=5;i++)
-        {
-            if(rating > i)
-            {
-                stars.push(<FaStar key={i} className="text-green-500" />);
-            }
-            else if(rating >= i-0.5)
-            {
-                stars.push(<FaStarHalfAlt key={i} className="text-green-500" />)
-            }
-            else { stars.push(<FaRegStar key={i} className="text-green-500" />) }
-        }
-        return stars;
-    }
 
     const handleCountChange = (newCount) => {
         setCount(newCount);
@@ -36,13 +18,13 @@ const ItemProductCard = ({ product }) => {
     };
 
     return (
-        <div className="shadow rounded-xl md:px-4 px-3 py-2 bg-white max-w-56  ">
+        <div className="shadow rounded-xl md:px-4 px-3 py-2 bg-white max-w-56 " onClick={() => {navigate(`/products/${product._id}`); window.scrollTo(0,0) }}>
             <div className="group cursor-pointer flex items-center justify-center px-2">
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={product.image} alt={product.name} />
+                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={`assets/basmati_rice_image.png`} alt={product.name} />
             </div>
             <div className="text-gray-500/60 text-sm">
                 <p>{product.category}</p>
-                <p className="text-gray-700 font-medium text-lg truncate w-full cursor-pointer" onClick={() => navigate('/login')}>{product.name}</p>
+                <p className="text-gray-700 font-medium text-lg truncate w-full cursor-pointer" >{product.name}</p>
                 <div className="flex items-center gap-0.5">
                     {genStars(product.rating)}
                     <p>({product.rating})</p>
@@ -61,10 +43,10 @@ const ItemProductCard = ({ product }) => {
                                 Add
                             </button>
                         ) : (
-                            <div className="flex items-center justify-center md:w-20 w-16 h-[34px] select-none">
-                                <button onClick={() => handleCountChange(Math.max(count - 1, 0))} className="cursor-pointer rounded-l-md bg-green-500/10 text-md px-2 h-full">-</button>
-                                <span className="w-5 bg-green-500/25 h-full px-3 flex items-center justify-center">{cartItems[product._id]}</span>
-                                <button onClick={() => handleCountChange(count + 1)} className="cursor-pointer rounded-r-md bg-green-500/10 text-md px-2 h-full">+</button>
+                            <div className="flex items-center justify-center bg-green-500/25 md:w-20 w-16 h-[34px] select-none">
+                                <button onClick={() => handleCountChange(Math.max(count - 1, 0))} className="cursor-pointer rounded-l-md text-md px-2 h-full">-</button>
+                                <span className="w-5 h-full px-3 flex items-center justify-center">{cartItems[product._id]}</span>
+                                <button onClick={() => handleCountChange(count + 1)} className="cursor-pointer rounded-r-md text-md px-2 h-full">+</button>
                             </div>
                         )}
                     </div>

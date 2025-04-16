@@ -14,9 +14,9 @@ export const ColorProvider = ({children}) =>
     }, []);
 
     return(
-        <ColorContext value={{themeColor, setThemeColor}}>
+        <ColorContext.Provider value={{themeColor, setThemeColor}}>
             {children}
-        </ColorContext>
+        </ColorContext.Provider>
     );
     
 }

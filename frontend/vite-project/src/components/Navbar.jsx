@@ -48,15 +48,18 @@ const Navbar = () => {
                         <IoMdClose className='lg:hidden text-3xl text-black cursor-pointer' onClick={toggleNavBar} />
                     ) : 
                     (
-                        <CgMenuRightAlt className='lg:hidden text-3xl text-black cursor-pointer' onClick={toggleNavBar} />
+                        <div className='flex items-center gap-7 lg:hidden'>
+                            <ShopCart />
+                            <CgMenuRightAlt className='text-3xl text-black cursor-pointer' onClick={toggleNavBar} />
+                        </div>
                     )}
             </nav>
                 <div className={`lg:hidden absolute z-20 left-0 flex justify-center items-center w-full h-screen bg-white transform transition-transform duration-200 ease-in-out ${openNavBar ? "translate-x-0" : "-translate-x-full"}`}>
                     <div className='flex flex-col items-center space-y-10 p-6 text-neutral-500 font-semibold text-lg '>
+                        <SearchBar />
                         <Link to="/" onClick={toggleNavBar} className={`${isActive("/") ? "text-green-600/80" : "" }`} >Home</Link>
                         <Link to="/products" onClick={toggleNavBar} className={`${isActive("/allproducts") ? "text-green-600/80" : "" }`}>All Products</Link>
                         <Link to="/contact" onClick={toggleNavBar} className={`${isActive("/contact") ? "text-green-600/80" : "" }`}>Contact</Link>
-                        <ShopCart />
                         <ButtonCustom href='/login' label='Login' disable={false} />
                     </div>
                 </div>
