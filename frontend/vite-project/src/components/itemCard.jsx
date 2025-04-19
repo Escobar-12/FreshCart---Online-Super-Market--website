@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useApplication from '../hooks/applicationHook';
 import { CiShoppingCart } from "react-icons/ci";
-import { assets } from '../assets/assets';
+import { assets } from '../../public/assets/assetss
 
 const ItemProductCard = ({ product }) => 
 {
@@ -20,7 +20,6 @@ const ItemProductCard = ({ product }) =>
     return (
         <div className="shadow rounded-xl md:px-4 px-3 py-2 bg-white max-w-56 " onClick={() => {navigate(`/products/${product._id}`); window.scrollTo(0,0) }}>
             <div className="group cursor-pointer flex items-center justify-center px-2">
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" src={`assets/basmati_rice_image.png`} alt={product.name} />
             </div>
             <div className="text-gray-500/60 text-sm">
                 <p>{product.category}</p>

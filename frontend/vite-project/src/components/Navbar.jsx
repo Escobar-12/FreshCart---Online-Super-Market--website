@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {assets} from "../assets/assets"
+import {assets} from "../../public/assets/assets.jss
 import { Link, useLocation } from "react-router-dom"
 import SearchBar from './SearchBar.jsx'
 import ShopCart from './ShopCart.jsx'

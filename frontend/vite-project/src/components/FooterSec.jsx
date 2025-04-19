@@ -1,6 +1,6 @@
 import React from 'react';
-import { assets } from "../assets/assets";
-import { footerLinks } from "../assets/assets";
+import { assets } from "../../public/assets/assetss
+import { footerLinks } from "../../public/assets/assetss
 import { Link } from 'react-router-dom';
 
 const FooterSec = () => {
