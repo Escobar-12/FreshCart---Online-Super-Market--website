@@ -1,11 +1,10 @@
 import React from 'react';
-import { assets } from "../../public/assets/assetss
-import { footerLinks } from "../../public/assets/assetss
+import { assets, footerLinks } from '../../public/assets/assets'
 import { Link } from 'react-router-dom';
 
 const FooterSec = () => {
     return (
-        <footer className="py-10 bg-[#eef9f4] w-screen text-neutral-500">
+        <footer className="py-10 bg-[#eef9f4] w-full text-neutral-500">
             <div className="flex flex-col max-w-[1240px] mx-auto px-4 md:px-8 lg:px-16 gap-4">
                 <div className="flex flex-col lg:flex-row justify-between items-start mb-10 gap-10">
                     <div className="flex flex-col gap-5 max-w-sm">

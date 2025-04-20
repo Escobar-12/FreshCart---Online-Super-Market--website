@@ -57,8 +57,6 @@ function Register({func})
     useEffect(()=>
     {
         const res = PWD_REGEX.test(pwd);
-        console.log(res);
-        console.log(pwd);
         setValidPwd(res);
     },[pwd])
 
@@ -111,8 +109,8 @@ function Register({func})
     
 
     return(
-        <section className="flex justify-center items-center min-h-screen text-white">
-            <div className="flex flex-col bg-neutral-800 shadow-lg sm:w-[60vw] w-full max-w-md border p-6 rounded-xl gap-6">
+        <section className="flex justify-center items-center min-h-screen ">
+            <div className="flex flex-col shadow-lg sm:w-[60vw] w-full max-w-md border p-6 rounded-xl gap-6">
                 {err && ( <p ref={errRef}  aria-live="assertive" className="text-red-500 text-center">
                     {err}
                 </p>)}
@@ -125,7 +123,7 @@ function Register({func})
                         <span className={validName || !user ? "hide" :"invalid"}>
                             <FontAwesomeIcon icon={faTimes}/>
                         </span>
-                        <input type="text" className="w-full p-3 rounded-md border-2 bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#62aaf7]"
+                        <input type="text" className="w-full p-3 rounded-md border-2 border-green-300/80 focus:outline-none focus:ring-2 focus:ring-[#47b047]"
                         id="username" 
                         ref={userRef}
                         autoComplete="off" 
@@ -149,7 +147,7 @@ function Register({func})
                     
                     <label htmlFor="email">Email:
                         
-                        <input type="email" className="w-full p-3 rounded-md border-2 bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#62aaf7]"
+                        <input type="email" className="w-full p-3 rounded-md border-2 border-green-300/80 focus:outline-none focus:ring-2 focus:ring-[#47b047]"
                         id="email" 
                         onChange={(e)=>setEmail(e.target.value)}
                         required
@@ -166,7 +164,7 @@ function Register({func})
                         <span className={validPwd || !pwd ? "hide" :"invalid"}>
                             <FontAwesomeIcon icon={faTimes}/>
                         </span>
-                        <input type="password" className="w-full p-3 rounded-md border-2 bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#62aaf7]"
+                        <input type="password" className="w-full p-3 rounded-md border-2 border-green-300/80 focus:outline-none focus:ring-2 focus:ring-[#47b047]"
                         id="password" 
                         onChange={(e)=>setPwd(e.target.value)}
                         required

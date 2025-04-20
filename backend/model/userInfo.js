@@ -1,5 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import addressSchema from "./userAddresses.js";
 
 
 const userSchema = new mongoose.Schema({

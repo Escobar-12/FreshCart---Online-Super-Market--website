@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
+import { useMemo } from 'react';
 
 const ApplicationContext = createContext({});
 
@@ -48,6 +49,7 @@ export const ApplicationProvider = ({ children }) => {
     const clearCart = () =>
     {
         setCartItems({});
+        localStorage.removeItem("cart");
         BurnToast("success","Cart Cleared");
     }
 
@@ -59,17 +61,6 @@ export const ApplicationProvider = ({ children }) => {
             totalCount += 1;
         }
         return totalCount;
-    }
-
-    const getTotalAmount = () =>
-    {
-        let totalAmount = 0;
-        for(const i in cartItems)
-        {
-            const item = products.find((product) => product._id === i);
-            totalAmount += item.offerPrice * cartItems[i]
-        }
-        return totalAmount;
     }
 
     // Burn toast
@@ -104,8 +95,8 @@ export const ApplicationProvider = ({ children }) => {
                         credentials:"include",
                     }
                 );
-                if(!res.ok) return console.log("Error");
-                const data = res.json();
+                const data = await res.json();
+                if(!res.ok) return console.log("Error, " +data.message );
                 return data;
             }
             const data = await getIT();
@@ -165,8 +156,21 @@ export const ApplicationProvider = ({ children }) => {
     },[products])
 
 
+    const totalAmount = useMemo(() => {
+        let total = 0;
+        for (const i in cartItems) {
+            const item = products.find((product) => product._id === i);
+            if (item && typeof item.offerPrice === "number") {
+                total += item.offerPrice * cartItems[i];
+            }
+        }
+        return total;
+    }, [cartItems, products]);
+
+
+
     return (
-        <ApplicationContext.Provider value={{ cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, getTotalAmount, getCartCount}}>
+        <ApplicationContext.Provider value={{ cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
             {children}
         </ApplicationContext.Provider>
     );

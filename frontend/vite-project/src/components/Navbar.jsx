@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import {assets} from "../../public/assets/assets.jss
+import {assets} from '../../public/assets/assets'
 import { Link, useLocation } from "react-router-dom"
 import SearchBar from './SearchBar.jsx'
 import ShopCart from './ShopCart.jsx'
 import ButtonCustom from "./CustomButton.jsx"
 import { CgMenuRightAlt } from "react-icons/cg"
 import { IoMdClose } from "react-icons/io"
+import useAuth from '../hooks/useAuth.jsx'
+import Image from './Image.jsx'
+import UserProfile from './Profile.jsx'
 
 const Navbar = () => {
     const [openNavBar, setOpenNavBar] = useState(false);
     const location = useLocation();
+    const {auth} = useAuth();
+
+
     const toggleNavBar = () => 
     {
         setOpenNavBar(prev => !prev)
@@ -41,7 +47,12 @@ const Navbar = () => {
                     <Link to="/contact"  className={`${isActive("/contact") ? "text-green-600/80" : "" }`}>Contact</Link>
                     <SearchBar />
                     <ShopCart />
-                    <ButtonCustom href='/login' label='Login' disable={false} />
+                    {
+                        auth?.user ?
+                        (<UserProfile />)
+                        :
+                        (<ButtonCustom href='/login' label='Login' disable={false} />)
+                    }
                 </div>
                 {openNavBar ? 
                     (
@@ -60,7 +71,12 @@ const Navbar = () => {
                         <Link to="/" onClick={toggleNavBar} className={`${isActive("/") ? "text-green-600/80" : "" }`} >Home</Link>
                         <Link to="/products" onClick={toggleNavBar} className={`${isActive("/allproducts") ? "text-green-600/80" : "" }`}>All Products</Link>
                         <Link to="/contact" onClick={toggleNavBar} className={`${isActive("/contact") ? "text-green-600/80" : "" }`}>Contact</Link>
-                        <ButtonCustom href='/login' label='Login' disable={false} />
+                        {
+                            auth?.user ?
+                            (<UserProfile />)
+                            :
+                            (<ButtonCustom href='/login' label='Login' disable={false} />)
+                        }
                     </div>
                 </div>
             

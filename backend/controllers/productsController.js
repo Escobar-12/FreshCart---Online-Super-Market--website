@@ -1,6 +1,6 @@
 import { GroceryModel } from "../model/grocery.js"
 
-export const getAllProducts = async (erq, res) => {
+export const getAllProducts = async (req, res) => {
     try
     {
         const products = await GroceryModel.find({});   
@@ -10,27 +10,36 @@ export const getAllProducts = async (erq, res) => {
     catch (error) 
     {
         console.error("Error getting address:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 }
 
-export const addProduct = async (req, res) => 
-{
-    try 
-    {
-        const { name, category, rating, price, offerPrice, image, description, inStock } = req.body;
+export const addProduct = async (req, res) => {
+    try {
+        const { name, category, price, offerPrice, description, image } = req.body;
 
-        if (!name || !category || !rating || !price || !offerPrice || !image || !description || inStock === undefined) {
+        if (!name || !category || !price || !offerPrice || !description || !image) {
             return res.status(400).json({ success: false, message: "Missing Data" });
         }
 
-        const newProduct = await GroceryModel.create({ name, category, rating, price, offerPrice, image, description, inStock });
+        if (!Array.isArray(image)) {
+            return res.status(400).json({ success: false, message: "Invalid Data: image must be an array" });
+        }
 
-        return res.status(201).json({ success: true, message: "Product added successfully", product: newProduct });
-    }
-    catch (error) 
-    {
+        const newProduct = new GroceryModel({
+            name,
+            category,
+            price,
+            offerPrice,
+            description,
+            image
+        });
+
+        await newProduct.save();
+
+        return res.status(201).json({ success: true, message: "Product added successfully" });
+    } catch (error) {
         console.error("Error adding product:", error);
-        res.status(500).json({ success: false, message: "Internal server error" });
+        return res.status(500).json({ success: false, message: "Internal server error" });
     }
 };

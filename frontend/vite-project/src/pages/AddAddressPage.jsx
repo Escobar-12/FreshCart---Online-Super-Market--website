@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import useApplication from '../hooks/applicationHook'
-import { assets } from '../assets/assets';
+import { assets } from '../../public/assets/assets';
 import useAuth from '../hooks/useAuth';
 
 const InputField = ({type, placeHolder, name, handleChange, address})=>(
@@ -19,7 +19,7 @@ const AddAddressPage = () => {
     const {auth} = useAuth();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const from = location.from || "/";
+    const from = location.state?.from?.pathname || "/";
     const [address, setAddress] = useState({
         firstName:'',
         lastName:'',
@@ -42,6 +42,9 @@ const AddAddressPage = () => {
     const onSubmitHandler = async (e) => 
     {
         e.preventDefault();
+
+        if(loading) return;
+
         setLoading(true);
         setError(null);
         try 
@@ -66,7 +69,7 @@ const AddAddressPage = () => {
             console.log("Address added");
         } catch (err) {
             console.error(err);
-            BurnToast("error","Operation Failed, Try again")
+            BurnToast("error","Failed To Add A New Address")
             setError(err.message || "Something went wrong");
         } finally {
             setLoading(false);
@@ -76,8 +79,8 @@ const AddAddressPage = () => {
 
     return (
         <div className='mt-16 pb-16 '>
-            <p className='text-2xl md:text-3xl text-gray-500'>Add Shipping 
-                <span className='font-semibold' style={{color:themeColor}}>Address</span>
+            <p className='text-2xl md:text-3xl text-gray-500'>Add Shipping  
+                <span className='font-semibold' style={{color:themeColor}}> Address</span>
             </p>
             <div className='flex flex-col-reverse md:flex-row justify-between mt-10'>
                 <div className='flex-1 max-w-md'>

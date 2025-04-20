@@ -1,5 +1,5 @@
 import React from 'react'
-import { features } from '../../public/assets/assetss
+import { features } from '../../public/assets/assets'
 import useApplication from '../hooks/applicationHook';
 
 const Features = () => {

@@ -1,4 +1,4 @@
-import { useEffect, useState} from 'react'
+import { useEffect, useRef, useState} from 'react'
 import useApplication from '../hooks/applicationHook';
 import useAuth from '../hooks/useAuth';
 
@@ -7,19 +7,65 @@ import { ImCancelCircle } from "react-icons/im";
 
 const CartPage = () => {
     const {auth} = useAuth();
-    const {navigate,BurnToast, getCartCount, themeColor, products, cartItems, update, deleteItem, clearCart} = useApplication();
+    const {navigate,BurnToast, totalAmount, getCartCount, themeColor, products, cartItems, update, deleteItem, clearCart, location} = useApplication();
     const [showAddress, setShowAddress] = useState(false);
     const [addresses,setAddresses] = useState([]);
     const [chooseAddress, setChooseAddress] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [placingOrder, setPlacingOrder] = useState(false);
     const [error, setError] = useState(null);
+
+    const tax = 0;
+    const paymentRef = useRef();
 
 
     const placeOrder = async () =>
     {
+        if(placingOrder) return ;
+        try 
+        {
+            setPlacingOrder(true);
+            const orderList = Object.entries(cartItems).map(([productId,qty]) => (
+                {
+                    item: productId,
+                    quantity: qty
+                }
+            ));
 
+            if(!chooseAddress) return BurnToast("error","Select An Address");
+
+            const res = await fetch("http://localhost:5000/api/orders/addOrder", {
+                method: "POST",
+                headers: {
+                    "Content-Type":"application/json",
+                    authorization: `Bearer ${auth?.Access_token}`,
+                },
+                body:JSON.stringify({
+                    order: orderList,
+                    address:chooseAddress,
+                    amount:totalAmount,
+                    paymentType:paymentRef.current.value,
+                }),
+                credentials: "include",
+            });
+    
+            if (!res.ok) return console.log("Failed to get address.");
+    
+            BurnToast("success", "Order Placed");
+            navigate("/");
+
+        } 
+        catch (err) 
+        {
+            console.error(err.message);
+            setError(err.message || "Something went wrong");
+            BurnToast("error", "Can't Place The Order");
+        }
+        finally
+        {
+            setPlacingOrder(false)
+        }
     }
-
     const getAddressData = async () => 
         {
             setLoading(true);
@@ -33,15 +79,15 @@ const CartPage = () => {
                     credentials: "include",
                 });
         
-                if (!res.ok) {
-                    const message = await res.text();
-                    throw new Error(message || "Failed to get address.");
+                if (!res.ok) 
+                {
+                    console.log("Failed to get address.");
+                    return [];
                 }
-        
                 const data = await res.json();
                 return data;
             } catch (err) {
-                console.error(err);
+                BurnToast("error", "Can't Place The Order");
                 setError(err.message || "Something went wrong");
                 return [];
             } finally {
@@ -51,10 +97,11 @@ const CartPage = () => {
 
     const removeAddress = async (addressId) =>
     {
+        if(!auth.user) return navigate("/login", { state: { from: location } }) ;
         try
         {
             const res = await fetch("http://localhost:5000/api/info/removeAddress",{
-                method:"POST",
+                method:"DELETE",
                 headers: {
                     "Content-Type": "application/json",
                     authorization: `Bearer ${auth?.Access_token}`,
@@ -82,16 +129,12 @@ const CartPage = () => {
         fetchAddresses();
     }, []);
 
-    useEffect(()=>
-    {
-        console.log(addresses)
-    },[addresses])
 
     return (
         <div className='flex flex-col md:flex-row py-16 max-w-6xl w-full mx-auto gap-5'>
             <div className=' w-full flex-1 max-w-4xl'>
-                <div className='w-full p flex justify-between items-center pb-10'>
-                    <h1 className='text-2xl font-semibold '>
+                <div className='w-full p flex flex-col items-start md:flex-row justify-between md:items-center pb-10 gap-4'>
+                    <h1 className=' text-2xl font-semibold text-nowrap'>
                         Shopping Cart
                         <span className='text-sm tracking-tight px-2' style={{color:themeColor}}>{getCartCount()} items</span>
                     </h1>
@@ -107,12 +150,12 @@ const CartPage = () => {
                 </div>
                 
                 {
-                    products.filter((item)=>cartItems[item._id]).map((product, i)=>
+                    cartItems && products.filter((item)=>cartItems[item._id]).map((product, i)=>
                     (
                         <div key={i} className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3">     
                             <div className='flex items-center md:gap-6 gap-3'>
-                                <div className='h-24 w24 cursor-pointer flex items-center justify-center border border-gray-300 rounded'>
-                                    <img className="max-w-full h-full object-cover" src={product.image[0]} alt={product.name} />
+                                <div className='h-24 w24 cursor-pointer flex items-center justify-center border border-gray-300 rounded' onClick={()=> navigate(`/products/${product._id}`)}>
+                                    <img className="max-w-fit h-full object-cover" src={`assets/${product.image[0]}.png`} alt={product.name} />
                                 </div>
                                 <div>
                                     <p className="hidden md:block font-semibold">{product.name}</p>
@@ -137,7 +180,6 @@ const CartPage = () => {
                         </div>
                     ))
                 }
-                
             </div>
 
             {/* Payment */}
@@ -162,7 +204,7 @@ const CartPage = () => {
                                             </div>
                                         </div>
                                     ))}
-                                <p onClick={() => navigate("/add-address")} className="text-green-500 text-center cursor-pointer p-2 hover:bg-green-500/10">
+                                <p onClick={() => navigate("/add-address", { state: { from: location } }) } className="text-green-500 text-center cursor-pointer p-2 hover:bg-green-500/10">
                                     Add address
                                 </p>
                             </div>
@@ -172,7 +214,7 @@ const CartPage = () => {
 
                     <p className="text-sm font-medium uppercase mt-6">Payment Method</p>
 
-                    <select className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none">
+                    <select ref={paymentRef} className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none">
                         <option value="COD">Cash On Delivery</option>
                         <option value="Online">Online Payment</option>
                     </select>
@@ -182,20 +224,20 @@ const CartPage = () => {
 
                 <div className="text-gray-500 mt-4 space-y-2">
                     <p className="flex justify-between">
-                        <span>Price</span><span>$20</span>
+                        <span>Price</span><span>${totalAmount}</span>
                     </p>
                     <p className="flex justify-between">
                         <span>Shipping Fee</span><span className="text-green-600">Free</span>
                     </p>
                     <p className="flex justify-between">
-                        <span>Tax (2%)</span><span>$20</span>
+                        <span>Tax ({tax}%)</span><span>${totalAmount * tax}</span>
                     </p>
                     <p className="flex justify-between text-lg font-medium mt-3">
-                        <span>Total Amount:</span><span>$20</span>
+                        <span>Total Amount:</span><span style={{color:themeColor}}>${totalAmount - (totalAmount * tax)}</span>
                     </p>
                 </div>
 
-                <button onClick={() => placeOrder()} className="w-full py-3 mt-6 cursor-pointer text-white font-medium " style={{background:themeColor}}>
+                <button onClick={() => placeOrder()} className="w-full py-3 mt-6 cursor-pointer text-white font-medium " style={{background:themeColor}} disabled={placingOrder}>
                     Place Order
                 </button>
 

@@ -54,7 +54,7 @@ const AllProducts = () => {
     return (
         <div className='mt-16 flex flex-col gap-10'>
             <div className="flex flex-col items-end w-max group" >
-                <p className='uppercase font-semibold text-2xl '>{searchCategory || "All Products"}</p>
+                <p className='uppercase font-medium text-2xl '>{searchCategory || "All Products"}</p>
                 <div className='w-[30%] h-0.5 bg-green-600 rounded-full group-hover:w-full transition-all duration-200'></div>
             </div>
 

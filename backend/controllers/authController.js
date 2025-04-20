@@ -38,16 +38,16 @@ export const register = async (req, res) =>
         res.cookie("jwt", Refresh_token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
-            samesite: "Lax"
+            sameSite: "Lax"
         });
 
         return res.status(200).json(
             {
                 id:newUser._id,
-                user:name,
+                user:newUser.name,
                 Access_token,
-                role: role,
-                profile:img
+                role: newUser.role,
+                profile:newUser.img
             }
         );
     }
@@ -82,13 +82,13 @@ export const login = async (req, res) =>
         res.cookie("jwt", Refresh_token, {
             httpOnly: true,
             maxAge: 24 * 60 * 60 * 1000,
-            samesite: "Lax"
+            sameSite: "Lax"
         });
 
         return res.status(200).json(
             {
                 id:foundUser._id,
-                user:name,
+                user:foundUser.name,
                 Access_token,
                 role: foundUser.role,
                 profile:foundUser.img
@@ -133,20 +133,21 @@ export const refresh = async (req,res)=>
     }
 }
 
-export const logout = async (req,res) =>
-{
-    try
-    {
-        res.clearCookie("jwt",
-            {
-                httpOnly:true,
-                samesite:"Lax"
-            }
-        );
+export const logout = async (req, res) => {
+    try {
+        const cookies = req.cookies;
+        if (!cookies?.jwt) {
+            return res.status(204).json({ success: true, message: "No content, user already logged out." });
+        }
+
+        res.clearCookie("jwt", {
+            httpOnly: true,
+            sameSite: "Lax",
+        });
+
         return res.status(200).json({ success: true, message: "Logged out successfully" });
-    } 
-    catch (err) 
-    {
+    } catch (err) {
+        console.error("Logout error:", err);
         return res.status(500).json({ success: false, message: "Error while logging out" });
     }
-}
+};

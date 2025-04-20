@@ -1,5 +1,5 @@
 import React from 'react'
-import {assets} from '../../public/assets/assets.jss
+import {assets} from '../../public/assets/assets'
 import Features from './Features.jsx'
 
 

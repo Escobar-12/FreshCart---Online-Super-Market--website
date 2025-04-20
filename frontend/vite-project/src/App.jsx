@@ -8,6 +8,10 @@ import AllProducts from './pages/AllProducts.jsx';
 import ProductPage from './pages/ProductPage.jsx';
 import CartPage from './pages/CartPage.jsx';
 import AddAddressPage from './pages/AddAddressPage.jsx';
+import MyOrdersPage from './pages/MyOrdersPage.jsx';
+import SellerMainPage from './pages/SellerMainPage.jsx';
+import ProductListPage from './pages/ProductListPage.jsx';
+import AdminOrdersPage from './pages/AdminOrdersPage.jsx';
 
 
 const Roles = {
@@ -26,6 +30,10 @@ const router = createBrowserRouter([
       { path: 'products/:product_id', element:<ProductPage/>,},
       { path: 'cart', element: <CartPage /> },
       {path: 'add-address', element: <AddAddressPage />},
+      {path: 'my-orders', element: <MyOrdersPage />},
+      {path: 'seller', element: <SellerMainPage />},
+      {path: 'seller/product-list', element: <ProductListPage />},
+      {path: 'seller/orders', element: <AdminOrdersPage />},
       // {
       //   path: 'admin',
       //   element: <RequireAuth allowedRoles={[Roles.Admin]} />,

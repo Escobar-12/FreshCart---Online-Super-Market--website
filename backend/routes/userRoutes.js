@@ -6,6 +6,6 @@ const router = Router();
 
 router.post("/addAddress",verifyAccessToken,setUserAddress);
 router.get("/getAddress",verifyAccessToken,getUserAddress);
-router.post("/removeAddress",verifyAccessToken,removeAddress);
+router.delete("/removeAddress",verifyAccessToken,removeAddress);
 
 export default router;

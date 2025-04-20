@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import MainBanner from '../components/MainBanner'
 import CategoriesSec from '../components/CategoriesSec'
 import BestSellerSec from '../components/BestSellerSec'
@@ -7,6 +7,7 @@ import SubscriptionSec from '../components/SubscriptionSec'
 import FooterSec from '../components/FooterSec'
 
 const HomePage = () => {
+    
     return (
         <>  
         <section className="flex flex-col gap-4 mt-8 lg:mt-15">

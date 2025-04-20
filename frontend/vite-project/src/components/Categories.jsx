@@ -1,5 +1,5 @@
 import React from 'react';
-import { categories } from '../../public/assets/assets.js';
+import { categories } from '../../public/assets/assets'
 import useApplication from '../hooks/applicationHook.jsx';
 
 const Categories = () => {

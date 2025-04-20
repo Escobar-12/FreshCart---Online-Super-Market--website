@@ -7,6 +7,7 @@ import useAuth from "../hooks/useAuth";
 
 
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import useApplication from "../hooks/applicationHook";
 
 const USER_REGEX = /^[A-z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -18,13 +19,14 @@ function Login({ func })
     useButtonHoverEffect();
 
     const {setAuth,checkAuth} = useAuth();
+    const {themeColor} = useApplication();
     
     const userRef = useRef();
     const errRef = useRef();
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || '/'; 
+    const from = location.state?.from?.pathname || "/";
     
     const [user, setUser] = useState('');
     const [validName, setValidName] = useState(false);
@@ -104,8 +106,8 @@ function Login({ func })
     
 
     return(
-        <section className="flex justify-center items-center min-h-screen text-white">
-            <div className="flex flex-col bg-neutral-800 shadow-lg w-full max-w-md max-sm:max-w-[60vw]  border p-6 rounded-xl gap-6">
+        <section className="flex justify-center items-center min-h-screen ">
+            <div className="flex flex-col shadow-xl w-full max-w-md max-sm:max-w-[60vw]   p-6 rounded-xl gap-6">
                 {err && ( <p ref={errRef}  aria-live="assertive" className="text-red-500 text-center">
                     {err}
                 </p>)}
@@ -118,7 +120,7 @@ function Login({ func })
                         <span className={validName || !user ? "hide" :"invalid"}>
                             <FontAwesomeIcon icon={faTimes}/>
                         </span>
-                        <input type="text" className="w-full p-3 rounded-md border-2 bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#62aaf7]"
+                        <input type="text" className={`w-full p-3 rounded-md border border-green-300/80 focus:outline-none focus:ring-2 focus:ring-[#47b047]`}
                         id="username" 
                         ref={userRef}
                         autoComplete="off" 
@@ -148,7 +150,7 @@ function Login({ func })
                         <span className={validPwd || !pwd ? "hide" :"invalid"}>
                             <FontAwesomeIcon icon={faTimes}/>
                         </span>
-                        <input type="password" className="w-full p-3 rounded-md border-2 bg-neutral-700 focus:outline-none focus:ring-2 focus:ring-[#62aaf7]"
+                        <input type="password" className={`w-full p-3 rounded-md border border-green-300/80 focus:outline-none focus:ring-2 focus:ring-[#47b047]`}
                         id="password" 
                         onChange={(e)=>setPwd(e.target.value)}
                         required

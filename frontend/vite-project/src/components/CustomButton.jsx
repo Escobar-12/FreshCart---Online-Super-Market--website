@@ -22,8 +22,9 @@ const ButtonCustom = ({
     useButtonHoverEffect();
 
     const buttonStyle = {
-        opacity: disable ? 0.5 : 1,
-        cursor: disable ? "not-allowed" : "pointer",
+        ...(disable && { opacity: 0.5, cursor: "not-allowed" }),
+        color: themeColor,
+        background: themeColor,
     };
 
     const content = (

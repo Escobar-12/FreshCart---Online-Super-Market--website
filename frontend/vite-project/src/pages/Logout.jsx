@@ -3,15 +3,17 @@ import { useNavigate } from "react-router-dom";
 import ButtonCustom from "../components/CustomButton";
 import Image from "../components/Image";
 import useAuth from "../hooks/useAuth";
+import useApplication from "../hooks/applicationHook";
 
 const Logout = () => {
     const { setAuth } = useAuth();
+    const {clearCart } = useApplication();
     const navigate = useNavigate(); 
 
     const handleLogOut = async () => {
         try {
             const res = await fetch("http://localhost:5000/api/auth/logout/", {
-                method: "POST",
+                method: "GET",
             });
 
             if (!res.ok) {
@@ -19,6 +21,8 @@ const Logout = () => {
             }
 
             localStorage.removeItem("auth");
+            localStorage.removeItem("cart");
+            clearCart();
             setAuth(null);
             console.log("cleared");
             navigate("/", { replace: true }); 
@@ -34,13 +38,11 @@ const Logout = () => {
             <div className="w-full lg:w-1/2 flex flex-col gap-5 max-md:py-15 ">
                 <h1 className="heroHeader text-3xl lg:text-5xl font-bold">Click Here To Log Out.</h1>
                 <div className="flex gap-3">
-                    <button onClick={handleLogOut}>
-                        <ButtonCustom label="Log out" bold={true} large={true} />
-                    </button>
-                    <ButtonCustom href="/" label="Home" bold={true} large={true} />
+                    <ButtonCustom label="Log out" bold={true} large={true} disable={false} onClicking={handleLogOut}/>
+                    <ButtonCustom href="/" label="Home" bold={true} large={true} disable={false} />
                 </div>
             </div>
-            <Image path={"Logoutbg.svg"} className="shadow-md rounded-2xl h-[80vh] w-full lg:max-w-[40vw] g:w-1/2 object-cover object-center" />
+            <Image path={"Logoutbg.svg"} className="shadow-md rounded-2xl max-h-180 lg:max-w-[40vw] lg:w-1/2 object-cover object-center" />
         </div>
     );
 };

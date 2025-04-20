@@ -1,5 +1,5 @@
 import React from 'react'
-import { assets } from '../assets/assets'
+import { assets } from '../../public/assets/assets'
 import { Link } from 'react-router-dom'
 import CustomSeeMore from './CustomSeeMore'
 
@@ -17,7 +17,7 @@ const MainBanner = () => {
             </h1>
 
             <div className="mt-6">
-            <Link to="/">
+            <Link to="/products">
                 <CustomSeeMore />
             </Link>
             </div>

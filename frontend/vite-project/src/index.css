@@ -41,9 +41,8 @@
 
 
 html, body {
-    
-    overflow-x: hidden; 
-    height: 100%;
+    height: auto;
+    overflow: auto;
     margin: 0;
     color: #000;
     box-sizing: border-box;
@@ -410,3 +409,34 @@ body {
     }
 }
 
+
+.adminLogout {
+    position: relative;
+    overflow: hidden; 
+    border: 1px solid #515050;
+    cursor: pointer;
+    transition: color 0.4s ease-in-out;
+}
+
+.adminLogout::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--colo);
+    width: 0;
+    height: 0;
+    transition: all 0.4s ease-in-out;
+    border-radius: 100%;
+    z-index: -1;
+}
+
+.adminLogout:hover {
+    color: white;
+}
+
+.adminLogout:hover::after {
+    width: 200px;
+    height: 200px;
+}
