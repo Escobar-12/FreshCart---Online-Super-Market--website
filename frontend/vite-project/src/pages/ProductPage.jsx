@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useApplication from '../hooks/applicationHook';
 import ItemProductCard from '../components/itemCard';
-
+import SafeImage from '../components/SafeImage';
 const ProductPage = () => 
 {
     const { products, navigate, addToCart, genStars, themeColor } = useApplication();
@@ -11,6 +11,8 @@ const ProductPage = () =>
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
+    const [imageError, setImageError] = useState(false);
+    
 
     useEffect(() => 
     {
@@ -57,13 +59,13 @@ const ProductPage = () =>
                                 onClick={() => setThumbnail(img)}
                                 className="border max-w-24 border-gray-500/30 rounded overflow-hidden cursor-pointer"
                             >
-                                <img src={`/assets/${img}.png`} alt={`Thumbnail ${index + 1}`} />
+                                <SafeImage imagePath={img} alt={`Thumbnail ${index + 1}`} />
                             </div>
                         ))}
                     </div>
 
                     <div className="border border-gray-500/30 max-w-100 rounded overflow-hidden">
-                        <img src={`/assets/${thumbnail}.png`} alt="Selected product" />
+                        <SafeImage imagePath={thumbnail} alt={'ProductImage'} />
                     </div>
                 </div>
 

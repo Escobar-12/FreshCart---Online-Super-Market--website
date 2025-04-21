@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import useApplication from '../hooks/applicationHook';
 import { CiShoppingCart } from "react-icons/ci";
-
+import SafeImage from './SafeImage';
 const ItemProductCard = ({ product }) => 
 {
     const { cartItems, addToCart, update, removeFromCart, navigate, genStars } = useApplication();
@@ -20,9 +20,7 @@ const ItemProductCard = ({ product }) =>
     return (
         <div className="shadow rounded-xl md:px-4 px-3 py-2 bg-white max-w-56" >
             <div className="group cursor-pointer flex items-center justify-center px-2 " onClick={() => {navigate(`/products/${product._id}`); window.scrollTo(0,0) }}>
-                <img className="group-hover:scale-105 transition max-w-26 md:max-w-36" 
-                    src={`/assets/${product.image[0]}.png`}
-                    alt={product.name} />
+                <SafeImage imagePath={product.image[0]} alt={product.name} className="group-hover:scale-105 transition max-w-26 md:max-w-36"/>
             </div>
             <div className="text-gray-500/60 text-sm cursor-pointer " onClick={() => {navigate(`/products/${product._id}`); window.scrollTo(0,0) }}>
                 <p>{product.category}</p>

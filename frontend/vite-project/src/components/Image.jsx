@@ -1,10 +1,10 @@
 import { IKImage } from 'imagekitio-react';
 
-const Image = ({ path, className, w = 500, h = 500, alt })=>
+const Image = ({ path, className, w = 500, h = 500, alt="default" })=>
 {
     return (
         <IKImage 
-            urlEndpoint={import.meta.env.VITE_IK_URL_ENDPOINT} 
+            urlEndpoint={"https://ik.imagekit.io/zvk2bqqlk/"} 
             path={path} 
             alt={alt} 
             className={className} 

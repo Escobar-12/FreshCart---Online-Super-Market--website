@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState} from 'react'
 import useApplication from '../hooks/applicationHook';
 import useAuth from '../hooks/useAuth';
-
 import { FaArrowLeft } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
-
+import SafeImage from '../components/SafeImage';
 const CartPage = () => {
     const {auth} = useAuth();
     const {navigate,BurnToast, totalAmount, getCartCount, themeColor, products, cartItems, update, deleteItem, clearCart, location} = useApplication();
@@ -53,6 +52,7 @@ const CartPage = () => {
     
             BurnToast("success", "Order Placed");
             navigate("/");
+            scrollTo({"top":0,behavior:"smooth"})
 
         } 
         catch (err) 
@@ -155,7 +155,7 @@ const CartPage = () => {
                         <div key={i} className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 items-center text-sm md:text-base font-medium pt-3">     
                             <div className='flex items-center md:gap-6 gap-3'>
                                 <div className='h-24 w24 cursor-pointer flex items-center justify-center border border-gray-300 rounded' onClick={()=> navigate(`/products/${product._id}`)}>
-                                    <img className="max-w-fit h-full object-cover" src={`assets/${product.image[0]}.png`} alt={product.name} />
+                                    <SafeImage imagePath={product.image[0]}  alt={product.name || "product"} className={" w-fit h-full object-cover" }/>
                                 </div>
                                 <div>
                                     <p className="hidden md:block font-semibold">{product.name}</p>

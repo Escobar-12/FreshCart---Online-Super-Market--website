@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { useMemo } from 'react';
+import { IKContext, IKImage, IKUpload } from 'imagekitio-react';
 
 const ApplicationContext = createContext({});
 
@@ -141,6 +142,32 @@ export const ApplicationProvider = ({ children }) => {
     }
 
 
+    // image kit
+    const publicKey = import.meta.env.VITE_IK_PUBLIC_KEY; 
+    const urlEndpoint = import.meta.env.VITE_IK_URL_ENDPOINT;
+    const authenticator =  async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/imageKit/auth');
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Request failed with status ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+            const { signature, expire, token } = data;
+            return { signature, expire, token };
+        } catch (error) {
+            throw new Error(`Authentication request failed: ${error.message}`);
+        }
+    };
+
+    const imageKitConfig = {
+        urlEndpoint,
+        publicKey,
+        authenticator,
+    };
+
     useEffect(()=>
     {
         fetchProducts();
@@ -170,7 +197,7 @@ export const ApplicationProvider = ({ children }) => {
 
 
     return (
-        <ApplicationContext.Provider value={{ cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
+        <ApplicationContext.Provider value={{imageKitConfig, authenticator, cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
             {children}
         </ApplicationContext.Provider>
     );

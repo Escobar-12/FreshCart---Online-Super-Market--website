@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import useAuth from '../hooks/useAuth'
 import useApplication from '../hooks/applicationHook';
-
+import Image from '../components/Image.jsx';
 import CircularProgress from '../components/CircularProgress.jsx';
-
+import SafeImage from '../components/SafeImage.jsx';
 const MyOrdersPage = () => {
     const {auth} = useAuth();
     const {themeColor, products} = useApplication();
@@ -14,6 +14,7 @@ const MyOrdersPage = () => {
 
     const loadingMoreRef = useRef(false);
     const [canLoadMore, setCanLoadMore ] = useState(true); 
+    const [imageError, setImageError] = useState(false);
 
     const getMyOrders = async () => 
     {
@@ -100,7 +101,7 @@ const MyOrdersPage = () => {
                                 >
                                     <div className="flex items-center mb-4 md:mb-0 gap-3">
                                         <div className="bg-green-800/8 p-4 rounded-lg">
-                                            <img className="w-16 h-16" src={`/assets/${matchedProduct.image[0]}.png`} alt={matchedProduct.name || "product"}  />
+                                            <SafeImage className="w-16 h-16" imagePath={matchedProduct.image[0]} alt={matchedProduct.name || "product"}/>
                                         </div>
                                         <div>
                                             <h2 className="text-xl text-gray-800 font-medium">{matchedProduct.name}</h2>
