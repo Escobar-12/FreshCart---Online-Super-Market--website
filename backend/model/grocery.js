@@ -8,7 +8,7 @@ const groceryScheme = new Schema({
     offerPrice: {type:Number, default:0, required: true, },
     image: {type:[String], default:[], required: true, },
     description: {type:[String], default:[], required: true, },
-    inStock: {type:Boolean, default:true, required:true},
+    inStock: {type:Boolean, default:true},
 }, {timestamps:true})
 
 export const GroceryModel = mongoose.models.GroceryProduct || mongoose.model("GroceryProduct",groceryScheme);

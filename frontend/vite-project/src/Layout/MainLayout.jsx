@@ -18,7 +18,7 @@ const MainLayout = () => {
                     location.pathname.includes("seller") ?
                         (
                                 <div className="flex flex-row min-h-screen">
-                                    <AdminSideBar/>
+                                    <AdminSideBar className="hidden"/>
                                     <div className="flex-1">
                                         <Outlet />
                                     </div>

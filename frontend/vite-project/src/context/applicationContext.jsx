@@ -197,7 +197,7 @@ export const ApplicationProvider = ({ children }) => {
 
 
     return (
-        <ApplicationContext.Provider value={{imageKitConfig, authenticator, cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
+        <ApplicationContext.Provider value={{imageKitConfig, authenticator, cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, setProducts, fetchProducts, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
             {children}
         </ApplicationContext.Provider>
     );

@@ -12,7 +12,7 @@ const AdminSideBar = () => {
         {name:"Orders", path: "/seller/orders", icon: assets.order_icon},
     ]
     return (
-        <div className='md:w-64 w-16 border-r h[550px text-base border-gray-300 pt-4 flex flex-col transition-all duration-300'>
+        <div className='lg:w-64 w-16 hidden md:flex border-r h[550px] text-base border-gray-300 pt-4 flex-col transition-all duration-300'>
             {
                 sidebarLinks.map((link,i)=>(
                     <NavLink to={link.path} key={i} end={link.path === "/seller"}
@@ -21,7 +21,7 @@ const AdminSideBar = () => {
                             :"hover:bg-gray-100/90 border-white text-gray-700"}`} 
                         >
                         <img src={link.icon} alt="" className='w-7 h-7' />
-                        <p className='md:block hidden text-center'>{link.name}</p>
+                        <p className='lg:block hidden text-center'>{link.name}</p>
                     </NavLink>
                 ))
             }

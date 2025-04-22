@@ -11,7 +11,6 @@ const ProductPage = () =>
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [relatedProducts, setRelatedProducts] = useState(null);
     const [thumbnail, setThumbnail] = useState(null);
-    const [imageError, setImageError] = useState(false);
     
 
     useEffect(() => 
@@ -52,7 +51,7 @@ const ProductPage = () =>
             <div className="flex flex-col md:flex-row gap-16 mt-4">
                 <div className="flex gap-3">
                     <div className="flex flex-col gap-3">
-                        {selectedProduct.image?.map((img, index) => 
+                        {selectedProduct.image?.filter((img)=> img !== null).map((img, index) => 
                         (
                             <div
                                 key={index}

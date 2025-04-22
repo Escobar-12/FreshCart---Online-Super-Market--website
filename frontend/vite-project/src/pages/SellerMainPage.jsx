@@ -11,22 +11,13 @@ const SellerMainPage = () => {
     const from = location.state?.from?.pathname || "/";
 
     const [images, setImages] = useState([]);
+    const [showImages, setShowImages] = useState([]);
     const [productName, setProductName] = useState("");
     const [category, setCategory] = useState("");
     const [description, setDescription] = useState("");
     const [offer, setOffer] = useState(0);
     const [price, setPrice] = useState(0);
     const [loading, setLoading] = useState([]);
-
-    const handleImageChange = (e, index) => {
-        const img = e.target.files[0];
-        if (!img || index >= 4) return;
-
-        const url = URL.createObjectURL(img);
-        const updated = [...images];
-        updated[index] = url;
-        setImages(updated.slice(0, 4));  // Ensure the array size doesn't exceed 4
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -89,7 +80,7 @@ const SellerMainPage = () => {
                         <div key={index} className={`relative border ${loading[index] ? "isLoading" : ""} w-24 h-16 object-cover overflow-hidden border-gray-400 border-dashed cursor-pointer`}>
                             <img
                                 className={`w-full h-full object-cover`}
-                                src={images[index] || "/assets/default-featured-image.png.jpg"}
+                                src={showImages[index] || "/assets/default-featured-image.png.jpg"}
                                 alt="upload area"
                             />
                             
@@ -115,6 +106,12 @@ const SellerMainPage = () => {
                                                 {
                                                 const updated = [...prev];
                                                 updated[index] = res.name;
+                                                return updated;
+                                            });
+                                            setShowImages((prev) => 
+                                                {
+                                                const updated = [...prev];
+                                                updated[index] = res.url;
                                                 return updated;
                                             });
                                             setLoading((prev) => {

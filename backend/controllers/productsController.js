@@ -43,3 +43,24 @@ export const addProduct = async (req, res) => {
         return res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
+export const setStock = async (req, res) => 
+{
+    try 
+    {
+        const { id, stock } = req.body;
+
+        const product = await GroceryModel.findById(id);
+        if (!product) return res.status(400).json({ success: false, message: "Product Not Found" });
+
+        product.inStock = stock;
+        await product.save();
+
+        res.status(200).json({ success: true, product });
+    } 
+    catch (error) 
+    {
+        console.error("Error updating stock:", error);
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+};
