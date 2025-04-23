@@ -6,10 +6,13 @@ import useApplication from "../hooks/applicationHook";
 
 const UserProfile = () => {
     const { auth } = useAuth();
+    const {checkAdmin} = useApplication();
     const [openDialog, setOpenDialog] = useState(false);
     const dialogRef = useRef(null);
     const imageRef = useRef(null);
     const {themeColor} = useApplication();
+    const [check, setCheck] = useState(false);
+
 
     const toggleDialog = () => {
         setOpenDialog((prev) => !prev);
@@ -42,8 +45,17 @@ const UserProfile = () => {
             document.removeEventListener("click",checkInBoxClicks);
         }
     }, [openDialog]);
-    
 
+    useEffect(() => 
+    {
+        const verifyAdmin = async () => 
+        {
+            const isAdmin = await checkAdmin();
+            setCheck(isAdmin);
+        };
+        verifyAdmin();
+    }, [auth?.user]);
+    
     return (
         <div className="relative inline-block">
             <div className="rounded-full cursor-pointer" onClick={toggleDialog} ref={imageRef}>
@@ -62,8 +74,9 @@ const UserProfile = () => {
                         Hello, {auth?.user || "Guest"}!
                     </h1>
 
-                    <ButtonCustom href={`/my-orders`} label="My Orders" bold={true} large={false} onClick={() => setOpenDialog(false)} disable={false}/>
+                    {check && <ButtonCustom href={`/seller`} label="Dashboard" bold={true} large={false} onClick={() => setOpenDialog(false)} disable={false}/>}
 
+                    <ButtonCustom href={`/my-orders`} label="My Orders" bold={true} large={false} onClick={() => setOpenDialog(false)} disable={false}/>
 
                     <ButtonCustom href="/logout" label="Log out" bold={true} large={false} onClick={() => setOpenDialog(false)} disable={false}/>
 

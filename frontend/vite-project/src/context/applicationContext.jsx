@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa';
 import { useMemo } from 'react';
-import { IKContext, IKImage, IKUpload } from 'imagekitio-react';
+import {jwtDecode} from "jwt-decode";
 
 const ApplicationContext = createContext({});
 
@@ -168,6 +168,44 @@ export const ApplicationProvider = ({ children }) => {
         authenticator,
     };
 
+    // check Admin
+    const checkAdmin = async () =>
+    {
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/isAdmin',
+                {
+                    headers:{
+                        authorization: `Bearer ${auth?.Access_token}`,
+                    },
+                    credentials: "include"
+                }
+            );
+
+            if (!response.ok) {
+                return false;
+            }
+            return true; 
+        } catch (error) {
+            return false;
+        }
+    }
+
+    // decode the jwt for role check
+
+    const isAdmin = () => 
+    {
+        try 
+        {
+            const decoded = jwtDecode(auth?.Access_token);
+            return decoded?.role?.includes(4000);
+        } 
+        catch (e) 
+        {
+            return false;
+        }
+    };
+    
+
     useEffect(()=>
     {
         fetchProducts();
@@ -177,11 +215,6 @@ export const ApplicationProvider = ({ children }) => {
     {
         localStorage.setItem("cart",JSON.stringify(cartItems));
     },[cartItems])
-    useEffect(()=>
-    {
-        console.log(products)
-    },[products])
-
 
     const totalAmount = useMemo(() => {
         let total = 0;
@@ -197,7 +230,7 @@ export const ApplicationProvider = ({ children }) => {
 
 
     return (
-        <ApplicationContext.Provider value={{imageKitConfig, authenticator, cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, setProducts, fetchProducts, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
+        <ApplicationContext.Provider value={{imageKitConfig, authenticator, checkAdmin, cartItems, addToCart, update, removeFromCart, deleteItem, clearCart, navigate, location, genStars, products, setProducts, fetchProducts, BurnToast, themeColor, searchQuery, setSearchQuery, searchCategory, setSearchCategory, totalAmount, getCartCount}}>
             {children}
         </ApplicationContext.Provider>
     );

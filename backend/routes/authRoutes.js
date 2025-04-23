@@ -2,6 +2,9 @@ import { Router } from "express";
 import { login, logout, register, refresh } from "../controllers/authController.js";
 import { verifyAccessToken } from "../middleware/VerifyAuth.js";
 import { userModel } from "../model/userInfo.js";
+import { allowedRoles } from "../config/allowedRoles.js";
+import { VerifyRoles } from "../middleware/VerifyRoles.js";
+
 
 const router = Router();
 
@@ -26,6 +29,11 @@ router.get("/me",verifyAccessToken,async (req, res)=>{
     {
         res.status(500).json({ message: "Server error", error: err.message });
     }
+})
+
+router.get("/isAdmin",verifyAccessToken,VerifyRoles(allowedRoles.Admin), (req,res)=>
+{
+    return res.status(200).json({success:true, message:"Allowed"});
 })
 
 export default router;

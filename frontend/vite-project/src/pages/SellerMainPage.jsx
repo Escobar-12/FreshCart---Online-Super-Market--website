@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import useApplication from '../hooks/applicationHook';
 import { IKContext, IKUpload } from 'imagekitio-react';
+import { replace } from 'react-router-dom';
 
 const Categories = [{ name: 'Vegetables' }, { name: 'Bakery' }, { name: 'Fruits' }, { name: 'Grains' }, { name: 'Dairy' }, { name: 'Instant' }, { name: 'Drinks' }];
 
 const SellerMainPage = () => {
     const { auth } = useAuth();
-    const { BurnToast, navigate, location, imageKitConfig, authenticator } = useApplication();
+    const { BurnToast, navigate, checkAdmin, location, imageKitConfig, authenticator } = useApplication();
     const from = location.state?.from?.pathname || "/";
 
     const [images, setImages] = useState([]);
@@ -69,6 +70,17 @@ const SellerMainPage = () => {
             });
         };
     }, [images]);
+
+    useEffect(() => 
+    {
+        if(!auth?.user) return navigate("/login",{replace:true});
+        const verifyAdmin = async () => 
+        {
+            const isAdmin = await checkAdmin();
+            if(!isAdmin) return navigate("/login",{replace:true});
+        };
+        verifyAdmin();
+    }, [auth?.user]);
 
     return (
         <div className="flex flex-col justify-between bg-white text-gray-500/80">
