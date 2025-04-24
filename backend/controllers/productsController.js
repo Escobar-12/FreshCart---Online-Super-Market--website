@@ -64,3 +64,19 @@ export const setStock = async (req, res) =>
         res.status(500).json({ success: false, message: "Server Error" });
     }
 };
+
+export const getProduct = async (req, res) =>
+{
+    try
+    {
+        const id = req.params.id;
+        const productFound = await GroceryModel.findById(id);
+        if(!productFound) return res.status(400).json({ success: false, message: "Product Not Found" });
+
+        return res.status(200).json({success:false, product:productFound});
+    }
+    catch(err)
+    {
+        res.status(500).json({ success: false, message: "Server Error" });
+    }
+}

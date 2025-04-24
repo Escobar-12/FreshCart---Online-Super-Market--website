@@ -28,11 +28,33 @@ export const getAllOrders = async (req, res) =>
         if(!orders) return res.status(400).json({success:false, message:"No Order Found"});
 
         res.status(200).json({ success: true, orders });
-    } catch (error) {
+    } 
+    catch (error) {
         console.error("Error fetching orders:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 };
+
+export const adminOrders = async (req, res) => 
+{
+    try 
+    {
+        const page = parseInt(req.params.page) || 0;
+
+        const orders = await OrdersModel.find({}).sort({createdAt:-1}).skip(limit*page).limit(limit);
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ success: false, message: "No Orders Found" });
+        }
+
+        res.status(200).json({ success: true, orders });
+    } 
+    catch (error) 
+    {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+    }
+};
+
 
 
 export const getOrder = async (req, res) =>
