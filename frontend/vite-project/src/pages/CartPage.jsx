@@ -167,6 +167,7 @@ const CartPage = () => {
                                                 {Array(5).fill('').map((_, index) => (
                                                     <option key={index} value={index + 1}>{index + 1}</option>
                                                 ))}
+                                                    <option value={cartItems[product._id]}>{cartItems[product._id]}</option>
                                             </select>
 
                                         </div>

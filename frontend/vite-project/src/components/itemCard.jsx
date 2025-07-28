@@ -5,7 +5,7 @@ import SafeImage from './SafeImage';
 const ItemProductCard = ({ product }) => 
 {
     const { cartItems, addToCart, update, removeFromCart, navigate, genStars } = useApplication();
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(cartItems[product._id] || 0);
 
     const handleCountChange = (newCount) => {
         setCount(newCount);
