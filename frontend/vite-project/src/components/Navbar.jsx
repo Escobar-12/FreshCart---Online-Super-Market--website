@@ -35,6 +35,23 @@ const Navbar = () => {
         }
     }, [openNavBar]);
 
+    useEffect(() => 
+    {
+        const preventScroll = (e) => e.preventDefault();
+
+        if (openNavBar) 
+        {
+        document.body.addEventListener("wheel", preventScroll, { passive: false });
+        document.body.addEventListener("touchmove", preventScroll, { passive: false });
+        } 
+
+        return () => 
+        {
+        document.body.removeEventListener("wheel", preventScroll, { passive: false });
+        document.body.removeEventListener("touchmove", preventScroll, { passive: false });
+        };
+    }, [openNavBar]);
+
     return (
         <header className=' sticky z-40 top-0 p-4 border-b bg-white border-neutral-200'>
             <nav className='max-w-[1240px] mx-auto px-4 md:px-8 lg:px-16 w-full flex items-center justify-between '>
